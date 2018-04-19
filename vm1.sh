@@ -52,7 +52,7 @@ req_extensions     = req_ext
 [ req_ext ]
 basicConstraints = CA:FALSE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-subjectAltName          = IP:${ipaddr}" > ${dir_pwd}/conf.cnf
+subjectAltName          = IP:${ipaddr},DNS:${namehost}" > ${dir_pwd}/conf.cnf
 $(openssl req -new -key /etc/ssl/certs/web.key -config ${dir_pwd}/conf.cnf -reqexts req_ext -out /etc/ssl/certs/web.csr -subj "/CN=${namehost}" > /dev/null)
 $(openssl x509 -req -days 365 -CA /etc/ssl/certs/root-ca.crt -CAkey /etc/ssl/certs/root-ca.key -set_serial 01 -extfile ${dir_pwd}/conf.cnf -extensions req_ext -in /etc/ssl/certs/web.csr -out /etc/ssl/certs/web.crt > /dev/null)
 $(cat /etc/ssl/certs/root-ca.crt >> /etc/ssl/certs/web.crt)
